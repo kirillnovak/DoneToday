@@ -43,6 +43,9 @@ app.controller('CalendarController', function (
 	storage.get(null, function(data) {
 	  console.log( data, 'storage on get')
 	  $scope.calendarDone['records'] = (data.records || []);
+	  $scope.calendarDone['records'].forEach(function(dataItem){
+		delete dataItem['$$hashKey'];
+	  });
 	  setCalendarView({
 		init: true
 	  });
@@ -61,6 +64,9 @@ app.controller('CalendarController', function (
 		update: true,
 		data: record
 	  });
+
+	  delete $scope.newRecord;
+
 	  console.log( $scope.calendarDone.records, '$calendarDone.records before writing to storage' )
 
 	  storage.set({'records': $scope.calendarDone['records']}, function() {
@@ -184,6 +190,7 @@ app.factory('API', function (Config) {
   var API = function(){
 
 	this.addRecord = function (param, handleResp) {
+	  // To set yesterday: - 86400000*1
 	  var today = new Date().getTime();
 
 	  console.log( today, 'define today in API.addRecord' )
