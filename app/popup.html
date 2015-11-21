@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="DoneTodayChrome" ng-csp> 
+  <head>
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-animate.min.js"></script>
+    <script src="lib/angular-aria.min.js"></script>
+    <script src="lib/angular-material.min.js"></script>
+    <script src="lib/angular-material-icons.min.js"></script>
+    <script src="lib/svg-morpheus.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/popup.js"></script>
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300&subset=latin,cyrillic,cyrillic-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="lib/angular-material.min.css">
+    <link rel="stylesheet" href="css/popup.css">
+
+    <meta name="viewport" content="initial-scale=1" />
+    <meta charset="utf-8" /> 
+  </head>
+  <body ng-controller="AppController" class="md-stoic-theme">
+
+    <md-content ng-show="errorsBlocker.length > 0 || errors.length > 0" class="ng-minheight" layout="row" layout-align="center center">
+      <p class="md-title md-indent" ng-repeat="error in errorsBlocker">
+        {{error}}
+      </p>
+      <p class="md-title md-indent" ng-repeat="error in errors">
+        {{error}}
+      </p>
+    </md-content>
+
+    <section ng-controller="TaskController" ng-cloak>
+      <md-content ng-hide="errorsBlocker.length > 0">
+        <div class='md-default-theme'>
+          <md-toolbar layout="row" class="md-default-theme">
+            <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+              <h1>
+                DoneToday 
+                <sup>alpha</sup>
+                <!--em class="description"> — keep your real progress</em-->
+              </h1>
+            </div>
+          </md-toolbar>
+        </div>
+      </md-content>
+
+      <a class="report-bug" ng-click="reportBug()">report a bug</a>
+    </section>
+
+
+    <section ng-controller="CalendarController" ng-cloak layout="row">
+      <div flex>
+        <div layout="row" class="md-fill-background md-form-container">
+          <form novalidate ng-submit="addRecord(newRecordForm);newRecordForm.$setPristine();newRecordForm.$setUntouched();" name="newRecordForm" class="md-toolbar-tools md-form" layout="row" layout-align="space-between center">
+            <md-input-container class="md-block">
+              <label>I completely finished</label>
+              <input ng-model="newRecord.name" name="name" required ng-minlength="1"/>
+            </md-input-container>
+            <md-button type="submit" ng-disabled="newRecordForm.$invalid" class="md-cornered md-primary">
+              save
+            </md-button>
+          </form>
+        </div>
+        <md-content layout-padding class="calendar-done">
+          <dl ng-repeat="calendarDate in calendarView | orderBy:'date':true | limitTo: 45" ng-show="calendarDate.records">
+            <dt ng-bind="calendarDate.records[0].date|date:'dd MMM yyyy'" class="date">
+            </dt>
+            <dd ng-repeat="record in calendarDate.records" class="text" ng-bind="record.text">
+            </dd>
+          </dl>
+        </md-content>
+      </div>
+      <ul class="calendar-view"> 
+        <li ng-repeat="calendarDate in calendarView" data-hidden="{{calendarDate.hidden}}" data-status="{{calendarDate.records[0].status}}" data-today="{{calendarDate.today}}">
+        </li>
+      </ul>
+    </section>
+
+  </body>
+</html>
