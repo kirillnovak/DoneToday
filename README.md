@@ -1,16 +1,16 @@
-### Описание
+Live demo http://bit.ly/donetoday
 
-* app - Итоговая версия для магазина
-* app-dev - Версия разработчика
-* src - Исходные коды
+### Description
 
-Разработка ведется в app-dev
+* app - production
+* app-dev - development 
+* src - design sources
 
 *v.0.1.0*
 
-- Запуск приложения
+- Application start
 
 *v.0.1.1*
 
-- Резет поля при вводе
-- Исправление бага дублирования полей
+- Field reset on enter
+- Fix ng-repeat bug
