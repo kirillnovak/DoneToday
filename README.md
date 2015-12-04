@@ -1,8 +1,4 @@
-Done Today chrome extension repository
-
-Live demo: http://bit.ly/donetoday
-
-# doneToday
+# DoneToday
 
 ### Description
 
