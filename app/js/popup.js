@@ -178,7 +178,7 @@ app.controller('TaskController', function (
 
 	$scope.reportBug = function(){
 	  chrome.tabs.create({
-		url: 'http://kirillnovak.com/#/report-a-bug'
+		url: 'http://donetoday-ext.idea.informer.com'
 	  });
 	}
 	
