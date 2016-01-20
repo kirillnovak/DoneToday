@@ -2,9 +2,7 @@
 
 ### Description
 
-* app - production
-* app-dev - development 
-* src - design sources
+TODO
 
 *v.0.1.0*
 
