@@ -74,6 +74,14 @@ app.controller('CalendarController', function (
 	  });
 	};
 
+	$scope.removeRecord = function(){
+	  $scope.calendarDone['records'].splice(this.$index, 1);
+	  setCalendarView({
+		update: true
+	  });
+
+	}
+
 	/**
 	 * SET CALENDAR VIEW
 	 **/
@@ -100,24 +108,30 @@ app.controller('CalendarController', function (
 		});
 	  }
 	  if (param.update){
-		console.log( param.data, 'data passed to calendar to update' )
 		console.log( $scope.calendarDone, '$calendarDone before update' )
-		$scope.calendarDone['records'].push(param.data);
+		if (param.data !== undefined){
+		  console.log( param.data, 'data passed to calendar to update' )
+		  $scope.calendarDone['records'].push(param.data);
 
-		$scope.calendarView.forEach(function(calendarNumber){
-		  var calendarNumberDate = new Date(calendarNumber.date);
-		  var recordDate = new Date(param.data.date);
-		  if ( 
-			  calendarNumberDate.getDate() === recordDate.getDate() &&
-			  calendarNumberDate.getMonth() === recordDate.getMonth() &&
-			  calendarNumberDate.getYear() === recordDate.getYear()
-			 ) {
-			if (calendarNumber['records'] === undefined){
-			  calendarNumber['records'] = [];
+		  $scope.calendarView.forEach(function(calendarNumber){
+			var calendarNumberDate = new Date(calendarNumber.date);
+			var recordDate = new Date(param.data.date);
+			if ( 
+				calendarNumberDate.getDate() === recordDate.getDate() &&
+				calendarNumberDate.getMonth() === recordDate.getMonth() &&
+				calendarNumberDate.getYear() === recordDate.getYear()
+			   ) {
+			  if (calendarNumber['records'] === undefined){
+				calendarNumber['records'] = [];
+			  }
+			  calendarNumber['records'].push(param.data);
 			}
-			calendarNumber['records'].push(param.data);
-		  }
-		});
+		  });
+		} else {
+		  $scope.calendarView.forEach(function(calendarNumber){
+			console.log( calendarNumber )
+		  });
+		}
 	  }
 	}
 

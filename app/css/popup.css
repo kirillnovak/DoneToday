@@ -64,6 +64,15 @@ li + .no-items {
 .calendar-done .date {
   color: #90A4AE;
 }
+.calendar-done dd .remove {
+  display: none;
+}
+.calendar-done dd:hover .remove {
+  display: inline-block;
+  color: #F44336;
+  cursor: pointer;
+  margin-left: .5rem;
+}
 
 /* THEME */
 .md-default-theme.md-layout-row {

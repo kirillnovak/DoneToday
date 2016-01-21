@@ -65,7 +65,11 @@
           <dl ng-repeat="calendarDate in calendarView | orderBy:'date':true | limitTo: 45" ng-show="calendarDate.records">
             <dt ng-bind="calendarDate.records[0].date|date:'dd MMM yyyy'" class="date">
             </dt>
-            <dd ng-repeat="record in calendarDate.records" class="text" ng-bind="record.text">
+            <dd ng-repeat="record in calendarDate.records" class="text">
+              <span ng-bind="record.text"></span>
+              <span ng-click="removeRecord()" class="remove">
+                remove
+              </span>
             </dd>
           </dl>
         </md-content>
