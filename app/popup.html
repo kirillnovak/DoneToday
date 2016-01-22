@@ -48,7 +48,7 @@
     </section>
 
 
-    <section ng-controller="CalendarController" ng-cloak layout="row">
+    <section ng-controller="DoneController" ng-cloak layout="row">
       <div flex>
         <div layout="row" class="md-fill-background md-form-container">
           <form novalidate ng-submit="addRecord(newRecordForm);newRecordForm.$setPristine();newRecordForm.$setUntouched();" name="newRecordForm" class="md-toolbar-tools md-form" layout="row" layout-align="space-between center">
@@ -61,11 +61,12 @@
             </md-button>
           </form>
         </div>
+        {{ records }}
         <md-content layout-padding class="calendar-done">
-          <dl ng-repeat="calendarDate in calendarView | orderBy:'date':true | limitTo: 45" ng-show="calendarDate.records">
-            <dt ng-bind="calendarDate.records[0].date|date:'dd MMM yyyy'" class="date">
+          <dl ng-repeat="record in e.records | orderBy:'date':true" ng-show="e.records">
+            <dt ng-bind="record.date|date:'dd MMM yyyy'" class="date">
             </dt>
-            <dd ng-repeat="record in calendarDate.records" class="text">
+            <dd class="text">
               <span ng-bind="record.text"></span>
               <span ng-click="removeRecord()" class="remove">
                 remove
@@ -74,10 +75,6 @@
           </dl>
         </md-content>
       </div>
-      <ul class="calendar-view"> 
-        <li ng-repeat="calendarDate in calendarView" data-hidden="{{calendarDate.hidden}}" data-status="{{calendarDate.records[0].status}}" data-today="{{calendarDate.today}}">
-        </li>
-      </ul>
     </section>
 
   </body>

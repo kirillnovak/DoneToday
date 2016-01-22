@@ -21,16 +21,17 @@ app.controller('AppController', function (
 	
 });
 
-app.controller('CalendarController', function (
+app.controller('DoneController', function (
 	$scope,
 	API
   ) {
 
 	var storage = chrome.storage.local;
 
-	$scope.calendarView = [];
-	$scope.calendarDone = {};
-	$scope.calendarDone['records'] = [];
+	$scope.e = {
+	  'records': [],
+	  'dates': []
+	};
 
 	$scope.calendarToday = new Date();
 	var thisDay = $scope.calendarToday.getDay();
@@ -42,12 +43,9 @@ app.controller('CalendarController', function (
 	// BACKUP FROM CHROME STORAGE
 	storage.get(null, function(data) {
 	  console.log( data, 'storage on get')
-	  $scope.calendarDone['records'] = (data.records || []);
-	  $scope.calendarDone['records'].forEach(function(dataItem){
+	  $scope.e.records = (data.records || []);
+	  $scope.e.records.forEach(function(dataItem){
 		delete dataItem['$$hashKey'];
-	  });
-	  setCalendarView({
-		init: true
 	  });
 	  $scope.$digest();
 	});
@@ -60,125 +58,18 @@ app.controller('CalendarController', function (
 	  var record = API.addRecord({
 		'text': form.name.$viewValue,
 	  });
-	  setCalendarView({
-		update: true,
-		data: record
-	  });
 
-	  delete $scope.newRecord;
+	  $scope.e.records.push(record);
+	  console.log( $scope.e.records, 'e.records before writing to storage' )
 
-	  console.log( $scope.calendarDone.records, '$calendarDone.records before writing to storage' )
-
-	  storage.set({'records': $scope.calendarDone['records']}, function() {
+	  storage.set({'records': $scope.e.records}, function() {
 		console.log('Data saved');
 	  });
 	};
 
 	$scope.removeRecord = function(){
-	  $scope.calendarDone['records'].splice(this.$index, 1);
-	  setCalendarView({
-		update: true
-	  });
-
-	}
-
-	/**
-	 * SET CALENDAR VIEW
-	 **/
-	function setCalendarView(param){
-	  if (param.init) {
-		$scope.calendarView = getDaysInMonth(new Date());
-
-		console.log( $scope.calendarDone['records'], 'records before calendar has initiated' );
-		$scope.calendarView.forEach(function(calendarNumber){
-		  $scope.calendarDone['records'].forEach(function(record){
-			var calendarNumberDate = new Date(calendarNumber.date);
-			var recordDate = new Date(record.date);
-			if ( 
-				calendarNumberDate.getDate() === recordDate.getDate() &&
-				calendarNumberDate.getMonth() === recordDate.getMonth() &&
-				calendarNumberDate.getYear() === recordDate.getYear()
-			   ) {
-			  if( calendarNumber['records'] === undefined ) {
-				calendarNumber['records'] = [];
-			  };
-			  calendarNumber['records'].push(record);
-			};
-		  });
-		});
-	  }
-	  if (param.update){
-		console.log( $scope.calendarDone, '$calendarDone before update' )
-		if (param.data !== undefined){
-		  console.log( param.data, 'data passed to calendar to update' )
-		  $scope.calendarDone['records'].push(param.data);
-
-		  $scope.calendarView.forEach(function(calendarNumber){
-			var calendarNumberDate = new Date(calendarNumber.date);
-			var recordDate = new Date(param.data.date);
-			if ( 
-				calendarNumberDate.getDate() === recordDate.getDate() &&
-				calendarNumberDate.getMonth() === recordDate.getMonth() &&
-				calendarNumberDate.getYear() === recordDate.getYear()
-			   ) {
-			  if (calendarNumber['records'] === undefined){
-				calendarNumber['records'] = [];
-			  }
-			  calendarNumber['records'].push(param.data);
-			}
-		  });
-		} else {
-		  $scope.calendarView.forEach(function(calendarNumber){
-			console.log( calendarNumber )
-		  });
-		}
-	  }
-	}
-
-	/**
-	 * CALENDAR CONSTRUCTOR
-	 * @param {int} The month number, 0 based
-	 * @param {int} The year, not zero based, required to account for leap years
-	 * @return {[]} List contains:
-	 *	date objects for each day of the month, 
-	 *	objects to indent first day (hidden:true) 
-	 *	param to indicate today day (today:true) 
-	 */
-	function getDaysInMonth(date) {
-	  date.setDate(1);
-	  var thisDate = new Date();
-	  var thisMonth = thisDate.getMonth();
-	
-	  var days = [];
-
-	  // Calculate hidden fields
-	  for ( var i=0; i < date.getDay(); i++ ){
-		days.push({
-		  'date': '',
-		  'hidden': true
-		});
-	  }
-
-	  while (date.getMonth() === thisMonth) {
-		var todayParam = false;
-
-		// Calculate today
-		if ( 
-			date.getDate() === thisDate.getDate() && 
-			date.getMonth() === thisDate.getMonth() && 
-			date.getYear() === thisDate.getYear()
-		   ){
-		  todayParam = true; 
-		};
-
-		days.push({
-		  'date': date,
-		  'today': todayParam
-		});
-		date = new Date(date.getTime()+86400000);
-	  }
-	  console.log( days, 'calendarDays' )
-	  return days;
+	  console.log( this.$index )
+	  $scope.e.records.splice(this.$index, 1);
 	}
 
 });
