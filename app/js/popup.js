@@ -67,9 +67,8 @@ app.controller('DoneController', function (
 	  });
 	};
 
-	$scope.removeRecord = function(){
-	  console.log( this.$index )
-	  $scope.e.records.splice(this.$index, 1);
+	$scope.removeRecord = function(item){
+	  $scope.e.records.splice($scope.e.records.indexOf(item), 1);
 	}
 
 });
