@@ -20,6 +20,17 @@ app.controller('AppController', function (
 	$rootScope.errors = [];
 	
 });
+app.controller('AuthController', function (
+    $scope,
+    $rootScope
+  ) {
+	var storage = chrome.storage.local;
+	if (!storage.auth) {
+	  $rootScope.auth = false;
+	} else {
+	  $rootScope.auth = true;
+	}
+});
 
 app.controller('DoneController', function (
 	$scope,

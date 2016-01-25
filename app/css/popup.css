@@ -3,6 +3,9 @@ html, body {
   height: 500px;
   min-height: 340px;
 }
+.screen {
+  height: 450px;
+}
 body {
   font-size: 62.5%;
   font-family: Roboto, Arial, serif;

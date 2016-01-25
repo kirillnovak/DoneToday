@@ -47,8 +47,13 @@
       <a class="report-bug" ng-click="reportBug()">report a bug</a>
     </section>
 
+    <section ng-controller="AuthController" ng-cloak layout="row" layout-align="center center" ng-hide="auth" class="screen">
+      <md-button>
+        Register Now
+      </md-button>
+    </section>
 
-    <section ng-controller="DoneController" ng-cloak layout="row">
+    <section ng-controller="DoneController" ng-cloak layout="row" ng-show="auth" class="screen">
       <div flex>
         <div layout="row" class="md-fill-background md-form-container">
           <form novalidate ng-submit="addRecord(newRecordForm);newRecordForm.$setPristine();newRecordForm.$setUntouched();" name="newRecordForm" class="md-toolbar-tools md-form" layout="row" layout-align="space-between center">
