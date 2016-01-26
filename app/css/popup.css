@@ -152,12 +152,12 @@ md-toolbar.md-default-theme h1 sup {
   background: #BCAAA4;
 }
 
-/*
-.md-stoic-theme md-toolbar.md-default-theme {
-  background-color: transparent;
+/* Login with google */
+.login-with-google {
+  background: #F44336;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
-*/
-
 
 
 
@@ -208,6 +208,11 @@ md-toolbar.md-default-theme h1 sup {
 .md-muted-disable .md-icon,
 .md-muted-disable .md-maturity {
   opacity: 1;
+}
+.md-toolbar-tools.md-set-toolbar-tools-column {
+  flex-direction: column;
+  height: auto;
+  max-height: 100%;
 }
 
 .to-remove {

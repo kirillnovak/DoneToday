@@ -47,10 +47,26 @@
       <a class="report-bug" ng-click="reportBug()">report a bug</a>
     </section>
 
-    <section ng-controller="AuthController" ng-cloak layout="row" layout-align="center center" ng-hide="auth" class="screen">
-      <md-button>
-        Register Now
-      </md-button>
+    <section ng-controller="AuthController" ng-cloak layout="col" layout-align="center center" ng-hide="auth" class="screen">
+      <div layout="row" layout-align="center center" class="login-with-google">
+        <md-button>
+          Login with Google
+        </md-button>
+      </div>
+
+      <form novalidate ng-submit="auth()" name="userLoginForm" class="md-toolbar-tools md-set-toolbar-tools-column md-form" layout="column">
+        <md-input-container class="md-block">
+          <label>email or username</label>
+          <input ng-model="userLogin.name" name="name" required ng-minlength="1"/>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>password</label>
+          <input ng-model="userLogin.password" type="password" name="password" required ng-minlength="1"/>
+        </md-input-container>
+        <md-button type="submit" ng-disabled="userLoginForm.$invalid" class="md-cornered md-primary">
+          Login
+        </md-button>
+      </form>
     </section>
 
     <section ng-controller="DoneController" ng-cloak layout="row" ng-show="auth" class="screen">
