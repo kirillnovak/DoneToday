@@ -4,6 +4,8 @@
 
 TODO
 
+* Connect to server-side
+
 *v.0.1.0*
 
 - Application start
