@@ -5,6 +5,8 @@
 TODO
 
 * Connect to server-side
+* Authentification
+* Make a record
 
 *v.0.1.0*
 
